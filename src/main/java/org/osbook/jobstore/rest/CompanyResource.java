@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -28,12 +29,14 @@ public class CompanyResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewCompany(@Valid Company company) {
-		Company existingCompanyWithName = companyService.findByName(company.getName());
+		Company existingCompanyWithName = companyService.findByName(company
+				.getName());
 		if (existingCompanyWithName != null) {
 			return Response
 					.status(Status.NOT_ACCEPTABLE)
-					.entity(String.format("Company already exists with name: %s",company.getName()))
-					.build();
+					.entity(String.format(
+							"Company already exists with name: %s",
+							company.getName())).build();
 		}
 		company = companyService.save(company);
 		return Response.status(Status.CREATED).entity(company).build();
@@ -57,7 +60,6 @@ public class CompanyResource {
 
 	@Path("/{id}")
 	@DELETE
-	@Produces(MediaType.APPLICATION_JSON)
 	public Response deleteCompany(@PathParam("id") Long id) {
 		boolean deleted = companyService.delete(id);
 		if (deleted) {
@@ -65,4 +67,20 @@ public class CompanyResource {
 		}
 		return Response.status(Status.NOT_FOUND).build();
 	}
+
+	@Path("/{id}")
+	@PUT
+	public Response updateCompanyInformation(@PathParam("id") Long id,
+			@Valid Company company) {
+		Company existingCompany = companyService.findById(id);
+		if (existingCompany == null) {
+			return Response.status(Status.NOT_FOUND)
+					.entity(String.format("No company exists with id: %d", id))
+					.build();
+		}
+		company.setId(id);
+		companyService.update(company);
+		return Response.ok().build();
+	}
+
 }
