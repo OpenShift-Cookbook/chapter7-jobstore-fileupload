@@ -28,6 +28,14 @@ public class CompanyResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewCompany(@Valid Company company) {
+		Company existingCompanyWithName = companyService.findByName(company
+				.getName());
+		if (existingCompanyWithName != null) {
+			return Response
+					.status(Status.NOT_ACCEPTABLE)
+					.entity(String.format("Company already exists with name: %s",company.getName()))
+					.build();
+		}
 		company = companyService.save(company);
 		return Response.status(Status.CREATED).entity(company).build();
 	}
@@ -48,9 +56,10 @@ public class CompanyResource {
 		return companyService.findByName(idOrName);
 	}
 
+	@Path("/{id}")
 	@DELETE
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response deleteCompany(Long id) {
+	public Response deleteCompany(@PathParam("id") Long id) {
 		boolean deleted = companyService.delete(id);
 		if (deleted) {
 			return Response.ok().build();
