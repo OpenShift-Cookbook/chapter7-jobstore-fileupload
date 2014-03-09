@@ -1,5 +1,6 @@
 package org.osbook.jobstore.services;
 
+import java.util.Collections;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -18,7 +19,7 @@ public class JobService {
 	private EntityManager entityManager;
 	@Inject
 	private CompanyService companyService;
-	
+
 	public Job save(Long companyId, Job job) {
 		Company company = companyService.findById(companyId);
 		job.setCompany(company);
@@ -31,8 +32,15 @@ public class JobService {
 		return entityManager.find(Job.class, id);
 	}
 
-	public List<Job> findAll() {
-		return entityManager.createNamedQuery("Job.findAll", Job.class).getResultList();
+	public List<Job> findAllByCompany(Long companyId) {
+		try {
+			Company company = entityManager.getReference(Company.class, companyId);
+			return entityManager
+					.createNamedQuery("Job.findAllByCompany", Job.class)
+					.setParameter("company", company).getResultList();
+		} catch (EntityNotFoundException e) {
+			return Collections.emptyList();
+		}
 	}
 
 	public void update(Job job) {

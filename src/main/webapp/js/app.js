@@ -28,6 +28,7 @@
 		},
 		
 		render : function(){
+			$("#jobs").empty();
 			$.ajax('api/v1/companies/'+this.companyId+'/jobs',{
 				method : 'GET',
 				success : function(data){
@@ -53,6 +54,7 @@
 		changeView : function(view) {
 			if (null != this.currentView) {
 				this.currentView.undelegateEvents();
+				this.currentView = null;
 			}
 			this.currentView = view;
 			this.currentView.render();

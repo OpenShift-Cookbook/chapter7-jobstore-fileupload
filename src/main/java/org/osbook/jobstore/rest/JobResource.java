@@ -27,27 +27,28 @@ public class JobResource {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response createNewJob(@PathParam("companyId") Long companyId, @Valid Job job) {
+	public Response createNewJob(@PathParam("companyId") Long companyId,
+			@Valid Job job) {
 		job = jobService.save(companyId, job);
 		return Response.status(Status.CREATED).build();
 	}
 
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Job> showAll() {
-		return jobService.findAll();
+	public List<Job> showAll(@PathParam("companyId") Long companyId) {
+		return jobService.findAllByCompany(companyId);
 	}
 
 	@Path("/{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Job showJob(@PathParam("id") Long id) {
+	public Job showJob(@PathParam("companyId") Long companyId,@PathParam("id") Long id) {
 		return jobService.findById(id);
 	}
 
 	@Path("/{id}")
 	@DELETE
-	public Response deleteJob(@PathParam("id") Long id) {
+	public Response deleteJob(@PathParam("companyId") Long companyId,@PathParam("id") Long id) {
 		boolean deleted = jobService.delete(id);
 		if (deleted) {
 			return Response.ok().build();
@@ -57,7 +58,7 @@ public class JobResource {
 
 	@Path("/{id}")
 	@PUT
-	public Response updateJobInformation(@PathParam("id") Long id,
+	public Response updateJobInformation(@PathParam("companyId") Long companyId,@PathParam("id") Long id,
 			@Valid Job job) {
 		Job existingJob = jobService.findById(id);
 		if (existingJob == null) {
