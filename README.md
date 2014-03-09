@@ -1,3 +1,3 @@
-The OpenShift `jbosseap` cartridge documentation can be found at:
+# OpenShift Cookbook - Chapter 5 Sample Application#
 
-https://github.com/openshift/origin-server/tree/master/cartridges/openshift-origin-cartridge-jbosseap/README.md
+A Java EE 6 application
