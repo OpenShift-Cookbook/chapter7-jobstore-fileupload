@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Job.findAll", query = "SELECT NEW Job(j.id, j.title,j.description,j.filled, j.submissionDates) FROM Job j") })
+@NamedQueries({ @NamedQuery(name = "Job.findAll", query = "SELECT NEW Job(j.id, j.title,j.description,j.filled, j.submissionDate) FROM Job j") })
 public class Job {
 
 	@Id
