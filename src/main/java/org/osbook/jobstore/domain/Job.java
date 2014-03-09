@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -29,6 +30,7 @@ public class Job {
 	@Size(max = 4000)
 	private String description;
 
+	@Column(updatable = false)
 	@Temporal(TemporalType.DATE)
 	@NotNull
 	private final Date submissionDate = new Date();
@@ -37,7 +39,7 @@ public class Job {
 
 	@ElementCollection
 	private Set<String> skills = new HashSet<>();
-	
+
 	@ManyToOne
 	@NotNull
 	private Company company;

@@ -1,5 +1,6 @@
 package org.osbook.jobstore.domain;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -7,19 +8,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
 @Entity
+@NamedQueries({
+	@NamedQuery(name = "Company.findAll", query = "SELECT NEW Company(c.id,c.name,c.description) FROM Company c"),
+	@NamedQuery(name = "Company.findByName", query = "SELECT NEW Company(c.id,c.name,c.description) FROM Company c WHERE c.name =:name")
+})
+
 public class Company {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@Column(unique = true)
 	@NotNull
 	@Size(max = 100)
 	private String name;
@@ -36,6 +47,11 @@ public class Company {
 	@OneToMany(mappedBy = "company")
 	private List<Job> jobs;
 
+	@Column(updatable = false)
+	@NotNull
+	@Temporal(TemporalType.DATE)
+	private Date registeredOn = new Date();
+
 	public Company() {
 	}
 
@@ -43,6 +59,13 @@ public class Company {
 		this.name = name;
 		this.description = description;
 		this.contactEmail = contactEmail;
+	}
+
+	public Company(Long id, String name, String description) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.description = description;
 	}
 
 	public Long getId() {
