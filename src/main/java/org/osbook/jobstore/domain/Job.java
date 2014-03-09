@@ -7,16 +7,20 @@ import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "Job.findAll", query = "SELECT NEW Job(j.id, j.title,j.description,j.filled, j.submissionDate,j.skills) FROM Job j") })
 public class Job {
 
 	@Id
@@ -33,11 +37,11 @@ public class Job {
 	@Column(updatable = false)
 	@Temporal(TemporalType.DATE)
 	@NotNull
-	private final Date submissionDate = new Date();
+	private Date submissionDate = new Date();
 
 	private boolean filled = false;
 
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private Set<String> skills = new HashSet<>();
 
 	@ManyToOne
@@ -51,6 +55,18 @@ public class Job {
 		this.title = title;
 		this.description = description;
 		this.filled = filled;
+	}
+	
+	
+
+	public Job(Long id, String title, String description, boolean filled,Date submissionDate, Set<String> skills) {
+		super();
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.filled = filled;
+		this.submissionDate = submissionDate;
+		this.skills = skills;
 	}
 
 	public Long getId() {
@@ -87,6 +103,18 @@ public class Job {
 
 	public Set<String> getSkills() {
 		return skills;
+	}
+
+	public void setSkills(Set<String> skills) {
+		this.skills = skills;
+	}
+
+	public Company getCompany() {
+		return company;
+	}
+
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
 	public Date getSubmissionDate() {

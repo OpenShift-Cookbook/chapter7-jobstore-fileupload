@@ -1,5 +1,6 @@
 package org.osbook.jobstore.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -45,7 +46,7 @@ public class Company {
 	private String contactEmail;
 
 	@OneToMany(mappedBy = "company")
-	private List<Job> jobs;
+	private final List<Job> jobs = new ArrayList<>();
 
 	@Column(updatable = false)
 	@NotNull
@@ -98,6 +99,18 @@ public class Company {
 
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
+	}
+
+	public Date getRegisteredOn() {
+		return registeredOn;
+	}
+
+	public void setRegisteredOn(Date registeredOn) {
+		this.registeredOn = registeredOn;
+	}
+
+	public List<Job> getJobs() {
+		return jobs;
 	}
 
 }
