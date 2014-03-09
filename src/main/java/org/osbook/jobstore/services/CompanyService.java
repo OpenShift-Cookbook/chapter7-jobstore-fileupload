@@ -22,7 +22,14 @@ public class CompanyService {
 	}
 
 	public Company findById(Long id) {
-		return entityManager.find(Company.class, id);
+		try {
+			Company company = entityManager
+					.createNamedQuery("Company.findById", Company.class)
+					.setParameter("id", id).getSingleResult();
+			return company;
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public List<Company> findAll() {
@@ -39,7 +46,7 @@ public class CompanyService {
 		} catch (NoResultException e) {
 			return null;
 		}
-		
+
 	}
 
 	public void update(Company company) {

@@ -20,7 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Job.findAll", query = "SELECT NEW Job(j.id, j.title,j.description,j.filled, j.submissionDate,j.skills) FROM Job j") })
+@NamedQueries({ @NamedQuery(name = "Job.findAll", query = "SELECT NEW Job(j.id, j.title,j.description,j.filled, j.submissionDates) FROM Job j") })
 public class Job {
 
 	@Id
@@ -59,14 +59,13 @@ public class Job {
 	
 	
 
-	public Job(Long id, String title, String description, boolean filled,Date submissionDate, Set<String> skills) {
+	public Job(Long id, String title, String description, boolean filled,Date submissionDate) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.filled = filled;
 		this.submissionDate = submissionDate;
-		this.skills = skills;
 	}
 
 	public Long getId() {
