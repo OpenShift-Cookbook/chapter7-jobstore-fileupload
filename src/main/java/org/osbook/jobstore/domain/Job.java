@@ -56,10 +56,8 @@ public class Job {
 		this.description = description;
 		this.filled = filled;
 	}
-	
 
-	
-	public Job(Job job, long id, String name, String description){
+	public Job(Job job, long id, String name, String description) {
 		this.id = job.id;
 		this.title = job.title;
 		this.description = job.description;
