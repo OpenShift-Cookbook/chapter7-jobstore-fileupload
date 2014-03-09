@@ -39,12 +39,13 @@ public class CompanyService {
 		entityManager.merge(company);
 	}
 
-	public void delete(Long id) {
+	public boolean delete(Long id) {
 		try {
 			Company company = entityManager.getReference(Company.class, id);
 			entityManager.remove(company);
+			return true;
 		} catch (EntityNotFoundException e) {
-			return;
+			return false;
 		}
 	}
 }
