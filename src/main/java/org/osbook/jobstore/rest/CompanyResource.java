@@ -28,8 +28,7 @@ public class CompanyResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewCompany(@Valid Company company) {
-		Company existingCompanyWithName = companyService.findByName(company
-				.getName());
+		Company existingCompanyWithName = companyService.findByName(company.getName());
 		if (existingCompanyWithName != null) {
 			return Response
 					.status(Status.NOT_ACCEPTABLE)

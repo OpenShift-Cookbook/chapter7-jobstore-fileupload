@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 
 import org.osbook.jobstore.domain.Company;
@@ -30,9 +31,15 @@ public class CompanyService {
 	}
 
 	public Company findByName(String name) {
-		return entityManager
-				.createNamedQuery("Company.findByName", Company.class)
-				.setParameter("name", name).getSingleResult();
+		try {
+			Company company = entityManager
+					.createNamedQuery("Company.findByName", Company.class)
+					.setParameter("name", name).getSingleResult();
+			return company;
+		} catch (NoResultException e) {
+			return null;
+		}
+		
 	}
 
 	public void update(Company company) {
