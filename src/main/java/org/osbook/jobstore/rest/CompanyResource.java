@@ -39,7 +39,7 @@ public class CompanyResource {
 							company.getName())).build();
 		}
 		company = companyService.save(company);
-		return Response.status(Status.CREATED).build();
+		return Response.status(Status.CREATED).entity(company).build();
 	}
 
 	@GET

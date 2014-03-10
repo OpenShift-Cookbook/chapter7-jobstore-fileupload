@@ -28,12 +28,16 @@
 	</div>
 	<div class="container">
 		<div class="row">
-			<div id="companies" class="col-md-3 list-group">
-				<h2>Companies</h2>
-				
+			<div class="col-md-3">
+				<h2>Companies <a href="#companies/new" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus-sign"></span></a></h2>
+				<hr></hr>
+				<div id="companies" class="list-group">
+				</div>
 			</div>
-			<div id="jobs" class="col-md-offset-1 col-md-8">
-				
+			<div class="col-md-offset-1 col-md-8">
+				<hr></hr>
+				<div id="companyView">
+				</div>
 			</div>
 		</div>
 	</div>
@@ -51,6 +55,36 @@
 		<p class="lead">{{description}}</p>
 	</div>
 	<hr></hr>
+</script>
+
+<script type="text/x-mustache-template" id="company-form-template">
+	<form id="companyForm" class="form-horizontal" role="form">
+	<h2>New Company</h2>
+	<hr></hr>
+  <div class="form-group">
+    <label for="name" class="col-sm-2 control-label">Name</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="name" name="name" placeholder="Company Name" required autofocus>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-10">
+      <textarea id="description" name="description" class="form-control" placeholder="Tell about your company" required></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="contactEmail" class="col-sm-2 control-label">Contact Email</label>
+    <div class="col-sm-10">
+      <input type="email" class="form-control" id="contactEmail" name="contactEmail" placeholder="Whom to contact?" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success btn-lg">New Company</button>
+    </div>
+  </div>
+</form>
 </script>
 
 
