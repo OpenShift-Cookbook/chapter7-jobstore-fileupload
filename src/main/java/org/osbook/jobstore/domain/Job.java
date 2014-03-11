@@ -20,7 +20,11 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "Job.findAllByCompany", query = "SELECT NEW Job(j, c.id, c.name,c.description) FROM Job j JOIN j.company c WHERE j.company =:company") })
+@NamedQueries({
+	@NamedQuery(name = "Job.findAllByCompany", query = "SELECT NEW Job(j, c.id, c.name,c.description) FROM Job j JOIN j.company c WHERE j.company =:company"),
+	@NamedQuery(name = "Job.findById",query="SELECT NEW Job(j.id,j.title,j.description) FROM Job j WHERE j.id =:jobId")
+	
+})
 public class Job {
 
 	@Id
@@ -51,6 +55,12 @@ public class Job {
 	public Job() {
 	}
 
+	public Job(Long id, String title, String description) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+	}
+	
 	public Job(String title, String description, boolean filled) {
 		this.title = title;
 		this.description = description;

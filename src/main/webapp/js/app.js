@@ -28,9 +28,9 @@
 		initialize : function(options){
 			this.companyId = options.companyId;
 		},
-		
 		render : function(){
 			$("#companyView").empty();
+			$("#companyView").html(Mustache.to_html(template("jobs"), {companyId:this.companyId}));
 			$.ajax('api/v1/companies/'+this.companyId+'/jobs',{
 				method : 'GET',
 				success : function(data){
@@ -84,6 +84,55 @@
 			});
 		}
 	});
+	
+	JobStore.JobFormView = Backbone.View.extend({
+		el : $("body"),
+		
+		initialize : function(options){
+			this.companyId = options.companyId;
+		},
+		
+		events :{
+			'submit' : 'saveJob'
+		},
+		
+		render : function(){
+			$("#companyView").html(Mustache.to_html(template("jobs"), {companyId:this.companyId}));
+			$("#companyView").append(template("job-form"));
+			return this;
+		},
+		
+		saveJob : function(event){
+			console.log('in saveJob()');
+			event.preventDefault();
+			var title = $('input[name=title]').val();
+			var description = $('#description').val();
+			var skills = $('input[name=skills]').val();
+			var data = {
+					title: title,
+					description : description,
+					skills: skills.split(",")
+				};
+			var that = this;
+			$.ajax({
+			    type: "POST",
+			    url: "api/v1/companies/"+this.companyId+"/jobs",
+			    data: JSON.stringify(data),
+			    contentType: "application/json; charset=utf-8",
+			    dataType: "json",
+			    success: function(data, textStatus, jqXHR){
+			    	console.log(data);
+			    	router.navigate("companies/"+that.companyId+"/jobs",{trigger:true})
+			    },
+			    error: function(jqXHR, textStatus, errorThrown) {
+			        console.log(jqXHR);
+			        console.log(textStatus);
+			        console.log(errorThrown);
+			    }
+			});
+		}
+		
+	});
 
 	JobStore.Router = Backbone.Router.extend({
 		currentView : null,
@@ -91,8 +140,9 @@
 		routes : {
 			"" : "showAllCompanies",
 			"home":"showAllCompanies",
-			":companyId/jobs" : "jobsForACompany",
-			"companies/new":"newCompany"
+			"companies/:companyId/jobs" : "listJobsForCompany",
+			"companies/new":"newCompany",
+			"companies/:companyId/jobs/new":"newJob"
 		},
 
 		changeView : function(view) {
@@ -109,18 +159,19 @@
 			this.changeView(new JobStore.IndexView());
 		},
 
-		jobsForACompany : function(companyId) {
+		listJobsForCompany : function(companyId) {
 			console.log("in jobsForACompany()...");
-			this.changeView(new JobStore.JobView({companyId: companyId}));
+			this.changeView(new JobStore.JobView({companyId : companyId}));
 		},
 		newCompany : function(){
 			console.log("in newCompany()...");
 			this.changeView(new JobStore.CompanyFormView());
+		},
+		
+		newJob : function(companyId){
+			console.log("in newJob()...");
+			this.changeView(new JobStore.JobFormView({companyId : companyId}));
 		}
-		
-		
-		
-
 	});
 
 	var router = new JobStore.Router();

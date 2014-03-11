@@ -29,7 +29,7 @@ public class JobService {
 	}
 
 	public Job findById(Long id) {
-		return entityManager.find(Job.class, id);
+		return entityManager.createNamedQuery("Job.findById", Job.class).setParameter("jobId", id).getSingleResult();
 	}
 
 	public List<Job> findAllByCompany(Long companyId) {

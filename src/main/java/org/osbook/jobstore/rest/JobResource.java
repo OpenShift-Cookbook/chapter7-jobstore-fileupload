@@ -30,7 +30,7 @@ public class JobResource {
 	public Response createNewJob(@PathParam("companyId") Long companyId,
 			@Valid Job job) {
 		job = jobService.save(companyId, job);
-		return Response.status(Status.CREATED).build();
+		return Response.status(Status.CREATED).entity(jobService.findById(job.getId())).build();
 	}
 
 	@GET

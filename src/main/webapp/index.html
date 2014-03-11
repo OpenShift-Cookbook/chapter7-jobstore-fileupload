@@ -34,19 +34,21 @@
 				<div id="companies" class="list-group">
 				</div>
 			</div>
-			<div class="col-md-offset-1 col-md-8">
-				<hr></hr>
-				<div id="companyView">
-				</div>
+			<div id="companyView" class="col-md-offset-1 col-md-8">
 			</div>
 		</div>
 	</div>
 
 <script type="text/x-mustache-template" id="company-template">
-	<a href="#{{id}}/jobs" class="list-group-item">
+	<a href="#companies/{{id}}/jobs" class="list-group-item">
     	<h4 class="list-group-item-heading">{{name}}</h4>
     	<p class="list-group-item-text">{{description}}</p>
   </a>
+</script>
+
+<script type="text/x-mustache-template" id="jobs-template">
+	<h2>All Jobs <a href="#companies/{{companyId}}/jobs/new" class="btn btn-info btn-sm"><span class="glyphicon glyphicon-plus-sign"></span> New Job</a></h2>
+	<hr></hr>
 </script>
 
 <script type="text/x-mustache-template" id="job-template">
@@ -82,6 +84,36 @@
   <div class="form-group">
     <div class="col-sm-offset-2 col-sm-10">
       <button type="submit" class="btn btn-success btn-lg">New Company</button>
+    </div>
+  </div>
+</form>
+</script>
+
+<script type="text/x-mustache-template" id="job-form-template">
+	<form id="jobForm" class="form-horizontal" role="form">
+	<h2>New Job</h2>
+	<hr></hr>
+  <div class="form-group">
+    <label for="title" class="col-sm-2 control-label">Title</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="title" name="title" placeholder="Title" required autofocus>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="description" class="col-sm-2 control-label">Description</label>
+    <div class="col-sm-10">
+      <textarea id="description" name="description" class="form-control" placeholder="Job description" required></textarea>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="skills" class="col-sm-2 control-label">Skills</label>
+    <div class="col-sm-10">
+      <input type="text" class="form-control" id="skills" name="skills" placeholder="Comma seperated list of skills" required>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success btn-lg">New Job</button>
     </div>
   </div>
 </form>
