@@ -25,7 +25,6 @@ import org.hibernate.validator.constraints.Email;
 	@NamedQuery(name = "Company.findByName", query = "SELECT NEW Company(c.id,c.name,c.description) FROM Company c WHERE c.name =:name"),
 	@NamedQuery(name = "Company.findById", query = "SELECT NEW Company(c.id,c.name,c.description) FROM Company c WHERE c.id =:id"),
 })
-
 public class Company {
 
 	@Id
