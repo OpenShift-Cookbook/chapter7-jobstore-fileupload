@@ -70,5 +70,4 @@ public class JobResource {
 		jobService.update(job);
 		return Response.ok().build();
 	}
-
 }
