@@ -5,13 +5,13 @@
 
 	<persistence-unit name="jobstore" transaction-type="JTA">
 		<provider>org.hibernate.ejb.HibernatePersistence</provider>
-		<jta-data-source>java:jboss/datasources/MysqlDS</jta-data-source>
+		<jta-data-source>java:jboss/datasources/PostgreSQLDS</jta-data-source>
 
 		<exclude-unlisted-classes>false</exclude-unlisted-classes>
 
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
-			<property name="hibernate.hbm2ddl.auto" value="update" />
+			<property name="hibernate.hbm2ddl.auto" value="create" />
 		</properties>
 	</persistence-unit>
 
